@@ -35,7 +35,7 @@ fetch(BASE_URL + 'feedings/last_meal')
 
 function renderLandingPage(lastMeal) {
   feedingContainer.innerHTML = `
-    <h6>Fish Last Fed: ${lastMeal}</h6><br>
+    <h6 class ="subtitle is-4"><strong>Fish Last Fed:</strong> ${lastMeal}</h6>
     <a class ="button is-large is-primary" id="feed-button">Feed Fish</a><br><br>
     <a href = "#section2" class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
   `
