@@ -11,8 +11,7 @@ fetch(BASE_URL + 'feedings/last_meal')
   // for section1
   const feedButton = document.getElementById('feed-button')
   feedButton.addEventListener('click', createFeeding)
-  const fishRoomButton = document.getElementById('fish-room-button')
-  fishRoomButton.addEventListener('click', renderFishroomPage)
+
 
   // for section2
   section2.addEventListener('click', event =>{
@@ -36,9 +35,9 @@ fetch(BASE_URL + 'feedings/last_meal')
 
 function renderLandingPage(lastMeal) {
   feedingContainer.innerHTML = `
-    <h6>Fish Last Fed: ${lastMeal}</h6>
-    <a class ="button is-large is-primary" id="feed-button">Feed Fish</a>
-    <a class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
+    <h6>Fish Last Fed: ${lastMeal}</h6><br>
+    <a class ="button is-large is-primary" id="feed-button">Feed Fish</a><br><br>
+    <a href = "#section2" class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
   `
 }
 
