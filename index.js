@@ -17,11 +17,13 @@ fetch(BASE_URL + 'feedings/last_meal')
   section2.addEventListener('click', event =>{
     const target = event.target.id
     if (target === 'left'){
+      renderFishroomPage(target)
       // section2.innerHTML =
     } else if (target === 'right'){
       renderFishroomPage(target)
       // section2.innerHTML =
     } else if (target === 'back'){
+      renderFishroomPage(target)
       // section2.innerHTML =
     }
   })
@@ -63,18 +65,13 @@ function renderFishroomPage(sectionName){
         </div>
       </div>
     `
-
-    // debugger
-
     tanks.forEach( tank => {
 
       section2.firstElementChild.firstElementChild.innerHTML += `
 
-          <div class="tile is-child box" id= "left">
-            <h2 class= "title"> ${tank.name} </h2>
+          <div class="tile is-child" id= "left">
+            <h2 class= "title button"> ${tank.name} </h2>
           </div>
-
-
       `
     })
   })
