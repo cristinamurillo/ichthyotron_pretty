@@ -8,7 +8,7 @@ const section3 = document.getElementById('section3')
 fetch(BASE_URL + 'feedings/last_meal')
 .then(response => response.json())
 .then(lastMeal => {
-    renderLandingPage(lastMeal)
+    renderSection1(lastMeal)
 
     // for section1
     const feedButton = document.getElementById('feed-button')
@@ -21,9 +21,9 @@ fetch(BASE_URL + 'feedings/last_meal')
         console.log(target)
 
         if (target === 'left' || target === 'right' || target === 'back'){
-            renderFishroomPage(target)
+            renderSection2(target)
         } else if (parseInt(target)) {
-            renderTankshowPage(target)
+            renderSection3(target)
         }
     })
 })
@@ -33,12 +33,19 @@ fetch(BASE_URL + 'feedings/last_meal')
 
 
 
-function renderLandingPage(lastMeal) {
+function renderSection1(lastMeal) {
       feedingContainer.innerHTML = `
-        <h6 class ="subtitle is-4"><strong>Fish Last Fed:</strong> ${lastMeal}</h6>
+        <h6 class ="subtitle is-4" id="last-fed-display"> </h6>
         <a class ="button is-large is-primary" id="feed-button">Feed Fish</a><br><br>
         <a href = "#section2" class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
       `
+      updateLa  stFed(lastMeal)
+}
+
+function updateLastFed(lastMeal){
+    document.getElementById('last-fed-display').innerHTML = `
+      <strong>Fish Last Fed:</strong> ${lastMeal}
+    `
 }
 
 function createFeeding(event){
@@ -46,10 +53,10 @@ function createFeeding(event){
     method: 'POST'
   })
   .then(res => res.json() )
-  .then(lastMeal => renderLandingPage(lastMeal))
+  .then(updateLastFed)
 }
 
-function renderFishroomPage(sectionName){
+function renderSection2(sectionName){
   fetch(`${BASE_URL}tanks/section/${sectionName}`)
   .then(res => res.json())
   .then(tanks => {
@@ -69,7 +76,7 @@ function renderFishroomPage(sectionName){
   })
 }
 
-function renderTankshowPage(id){
+function renderSection3(id){
     fetch(`${BASE_URL}tanks/${id}`)
     .then(res => res.json())
     .then(tank => {
