@@ -31,8 +31,12 @@ fetch(BASE_URL + 'feedings/last_meal')
     section3.addEventListener('click', event => {
         if(parseInt(event.target.dataset.id)){
             renderFishShowPage(event.target.dataset.id)
-        }
+        } 
     })
+   //for section 4
+   section4.addEventListener('click', event => {
+       
+   }) 
 })
 .catch(error => {
     feedingContainer.innerHTML = "<h6> Connection to Server failed! </h6>"
