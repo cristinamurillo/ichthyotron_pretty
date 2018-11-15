@@ -45,12 +45,12 @@ fetch(BASE_URL + 'feedings/last_meal')
 
 
 function renderSection1(lastMeal) {
-      feedingContainer.innerHTML = `
-        <h6 class ="subtitle is-4" id="last-fed-display"> </h6>
-        <a class ="button is-large is-primary" id="feed-button">Feed Fish</a><br><br>
-        <a href = "#section2" class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
-      `
-      updateLastFed(lastMeal)
+    feedingContainer.innerHTML = `
+    <h6 class ="subtitle is-4" id="last-fed-display"> </h6>
+    <a class ="button is-large is-primary" id="feed-button">Feed Fish</a><br><br>
+    <a href = "#section2" class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
+    `
+    updateLastFed(lastMeal)
 }
 
 function updateLastFed(lastMeal){
@@ -60,17 +60,15 @@ function updateLastFed(lastMeal){
 }
 
 function createFeeding(event){
-  fetch(BASE_URL + 'feedings', {
-    method: 'POST'
-  })
+  fetch(BASE_URL + 'feedings', {method: 'POST'})
   .then(res => res.json() )
   .then(updateLastFed)
 }
 
 function renderSection2(sectionName){
-  fetch(`${BASE_URL}tanks/section/${sectionName}`)
-  .then(res => res.json())
-  .then(tanks => {
+    fetch(`${BASE_URL}tanks/section/${sectionName}`)
+    .then(res => res.json())
+    .then(tanks => {
     section2.innerHTML = `
       <div class="tile is-ancestor">
         <div class="tile is-parent" >
@@ -84,24 +82,37 @@ function renderSection2(sectionName){
           </div>
       `
     })
-  })
+    })
 }
 
 function renderSection3(id){
     fetch(`${BASE_URL}tanks/${id}`)
     .then(res => res.json())
     .then(tank => {
-
         let fishList = ""
+        const tankId = tank.id
+
         tank.fish.forEach( fish => {
             fishList += `<a href="#section4" class="button fish-icon" data-id=${fish.id}>${fish.name}</a>`
         })
-
         section3.innerHTML =`
             Section: ${tank.section} <br>
             Name: ${tank.name} <br>
             Fish: ${fishList}
+            <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
+        document.getElementById('delete-tank-button').addEventListener('click', deleteTank)
+
+        function deleteTank(event){
+            fetch(`${BASE_URL}tanks/${tankId}`, {method: 'DELETE'})
+            .then(res => res.json())
+            .then(res => {
+                section3.innerHTML = "Tank is Gone :)"
+                document.getElementById(tankId).remove()
+            })
+        }
+
+
     })
 }
 
