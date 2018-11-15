@@ -187,15 +187,10 @@ function updateFishTank(fish_id){
             })
             .then(res => {
                 renderFishShowPage(fish_id)
-            })
-
-       
-
-            
+            })    
         })
 
         document.getElementById('cancel-update').addEventListener('click', event => {
-            
             renderFishShowPage(fish_id)
         })
        
