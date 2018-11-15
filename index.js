@@ -93,9 +93,9 @@ function renderSection3(id){
     fetch(`${BASE_URL}tanks/${id}`)
     .then(res => res.json())
     .then(tank => {
-        const tankId = tank.id
         let fishList = ""
         let deleteButton
+        let editButton
         let updateButton
 
         // create list of Fish
@@ -107,30 +107,63 @@ function renderSection3(id){
         section3.innerHTML = `
             Section: ${tank.section} <br>
             Name: ${tank.name} <br>
-            Fish: ${fishList}
-            <a class ="button is-small is-primary" id="edit-tank-button" data-id=${tank.id}>Edit Tank</a>
+            Fish: ${fishList} <br>
+            <a class ="button is-small is-primary" id="edit-tank-button" data-id=${tank.id}>Edit Tank</a><br>
             <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
 
         // buttons
         deleteButton = document.getElementById('delete-tank-button')
         deleteButton.addEventListener('click', deleteTank)
-        
+
         editButton = document.getElementById('edit-tank-button')
         editButton.addEventListener('click', editTank)
 
 
         function deleteTank(){
-            fetch(`${BASE_URL}tanks/${tankId}`, {method: 'DELETE'})
+            fetch(`${BASE_URL}tanks/${tank.id}`, {method: 'DELETE'})
             .then(res => res.json())
             .then(res => {
                 section3.innerHTML = "Tank is Gone :)"
-                document.getElementById(tankId).remove()
+                document.getElementById(tank.id).remove()
             })
         }
 
         function editTank(event){
-            debugger
+
+            // add edit form to HTML
+            section3.innerHTML += `
+              <br>Tank: <input class="input" type="text" id="new-tank-name" placeholder="${tank.name}">
+              <br>Section: <input class="input" type="text" id="new-tank-section" placeholder="${tank.section}">
+              <a class ="button is-small is-primary" id="update-tank-button" data-id=${tank.id}>Submit Updates</a>
+            `
+
+            // button to submit updates
+            updateButton = document.getElementById('update-tank-button')
+            updateButton.addEventListener('click', update)
+
+
+            function update(){
+                newTankName = document.getElementById('new-tank-name').value || document.getElementById('new-tank-name').placeholder
+                newTankSection = document.getElementById('new-tank-section').value || document.getElementById('new-tank-section').placeholder
+
+                const updates = {
+                  'name': `${newTankName}`,
+                  'section': `${newTankSection}`
+                }
+
+                fetch(`${BASE_URL}/tanks/${tank.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(updates)
+                })
+                .then(renderUpdates)
+
+                function renderUpdates(){
+                    
+                }
+
+            }
 
         }
 
