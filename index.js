@@ -100,9 +100,12 @@ function renderSection3(id){
         document.getElementById('delete-tank-button').addEventListener('click', deleteTank)
 
         function deleteTank(event){
-            fetch(`${BASE_URL}tanks/${event.target.dataset.id}`, {method: 'DELETE'})
-            section3.innerHTML = "Tank is Gone :)"
-            document.getElementById(event.target.dataset.id).remove()
+            fetch(`${BASE_URL}tanks/${tankId}`, {method: 'DELETE'})
+            .then(res => res.json())
+            .then(res => {
+                section3.innerHTML = "Tank is Gone :)"
+                document.getElementById(tankId).remove()
+            })
         }
 
 
