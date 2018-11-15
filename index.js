@@ -80,7 +80,7 @@ function renderTankshowPage(id){
 
         let fishList = ""
         tank.fish.forEach( fish => {
-            fishList += `<li>${fish.name}</li>`
+            fishList += `<a class="button fish-icon">${fish.name}</a>`
         })
 
         section3.innerHTML =`
