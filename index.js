@@ -34,6 +34,7 @@ fetch(BASE_URL + 'feedings/last_meal')
         }
     })
    //for section 4
+
    section4.addEventListener('click', event => {
 
    })
@@ -160,7 +161,7 @@ function renderSection3(id){
                 .then(renderUpdates)
 
                 function renderUpdates(){
-                    
+
                 }
 
             }
@@ -189,6 +190,70 @@ function renderFishShowPage(id){
             <a class = "button is-link" id= "update-fish-health">Update Fish Health</a>
         </div>
         </div>`
+
+
+        section4.addEventListener('click', event => {
+            //button to update fish tank
+            if(event.target.id === "update-fish-tank"){
+
+                updateFishTank(fish.id)
+            }
+
+            //button to update fish health
+            if(event.target.id === "update-fish-health"){
+                updateFishHealth(fish.id)
+            }
+        })
     })
+
+}
+
+
+function updateFishTank(fish_id){
+    let tankOptions
+
+    fetch(BASE_URL + 'tanks')
+    .then(res => res.json())
+    .then(tanks => {
+        tanks.forEach(tank => {
+            tankOptions += `<option value=${tank.id}>${tank.name}</option>`
+        })
+
+        section4.innerHTML = `
+            <div class = columns>
+                <div class="select is-primary">
+                <div class="control column">
+                    <select name= "tank">
+                        ${tankOptions}
+                    </select><br>
+                    <button id= "update-tank-id" class="button is-primary">Update</button>
+                    </div>
+                    </div>
+                <div class = "column">
+                    <button class="button is-danger is-outlined" id="cancel-update">Cancel</button>
+                </div>
+            </div>`
+
+        document.getElementById('update-tank-id').addEventListener('click', event => {
+            let new_tank_id = document.querySelector('select').value
+            //update fish with new tank ID
+            fetch(BASE_URL + 'fish/' + fish_id, {
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+                body: JSON.stringify({tank_id: new_tank_id})
+            })
+            .then(res => {
+                renderFishShowPage(fish_id)
+            })
+        })
+
+        document.getElementById('cancel-update').addEventListener('click', event => {
+            renderFishShowPage(fish_id)
+        })
+
+
+
+    })
+
 
 }
