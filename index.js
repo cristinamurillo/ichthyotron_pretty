@@ -173,7 +173,7 @@ function updateFishTank(fish_id){
                     </div>
                     </div>
                 <div class = "column">
-                    <button class="button is-danger is-outlined">Cancel</button>
+                    <button class="button is-danger is-outlined" id="cancel-update">Cancel</button>
                 </div>
             </div>`
 
@@ -189,9 +189,15 @@ function updateFishTank(fish_id){
                 renderFishShowPage(fish_id)
             })
 
+       
+
             
         })
 
+        document.getElementById('cancel-update').addEventListener('click', event => {
+            
+            renderFishShowPage(fish_id)
+        })
        
 
 
