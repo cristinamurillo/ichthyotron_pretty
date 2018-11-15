@@ -90,7 +90,7 @@ function renderSection3(id){
 
         let fishList = ""
         tank.fish.forEach( fish => {
-            fishList += `fishList += `<a href="#section4" class="button fish-icon" data-id=${fish.id}>${fish.name}</a>`
+            fishList += `<a href="#section4" class="button fish-icon" data-id=${fish.id}>${fish.name}</a>`
         })
 
         section3.innerHTML =`
