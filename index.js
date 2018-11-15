@@ -4,6 +4,7 @@ const section1 = document.getElementById('section1')
 const section2 = document.getElementById('section2')
 const section3 = document.getElementById('section3')
 
+
 fetch(BASE_URL + 'feedings/last_meal')
 .then(response => response.json())
 .then(lastMeal => {
@@ -44,11 +45,8 @@ function createFeeding(event){
   fetch(BASE_URL + 'feedings', {
     method: 'POST'
   })
-  .then(res=>{
-    RenderFishFed()
-  })
-  .catch(error => {debugger})
-
+  .then(res => res.json() )
+  .then(lastMeal => renderLandingPage(lastMeal))
 }
 
 function renderFishroomPage(sectionName){
@@ -62,9 +60,7 @@ function renderFishroomPage(sectionName){
       </div>
     `
     tanks.forEach( tank => {
-
       section2.firstElementChild.firstElementChild.innerHTML += `
-
           <div class="tile is-child">
             <h2 class= "title button" id= "${tank.id}"> ${tank.name} </h2>
           </div>
