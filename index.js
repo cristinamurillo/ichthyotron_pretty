@@ -31,12 +31,12 @@ fetch(BASE_URL + 'feedings/last_meal')
     section3.addEventListener('click', event => {
         if(parseInt(event.target.dataset.id)){
             renderFishShowPage(event.target.dataset.id)
-        } 
+        }
     })
    //for section 4
    section4.addEventListener('click', event => {
-       
-   }) 
+
+   })
 })
 .catch(error => {
     feedingContainer.innerHTML = "<h6> Connection to Server failed! </h6>"
@@ -89,21 +89,28 @@ function renderSection3(id){
     fetch(`${BASE_URL}tanks/${id}`)
     .then(res => res.json())
     .then(tank => {
-        let fishList = ""
         const tankId = tank.id
+        let fishList = ""
+        let deleteButton
 
+        // create list of Fish
         tank.fish.forEach( fish => {
             fishList += `<a href="#section4" class="button fish-icon" data-id=${fish.id}>${fish.name}</a>`
         })
-        section3.innerHTML =`
+
+        // fill in section3 with tank info and fishList
+        section3.innerHTML =`ra
             Section: ${tank.section} <br>
             Name: ${tank.name} <br>
             Fish: ${fishList}
             <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
-        document.getElementById('delete-tank-button').addEventListener('click', deleteTank)
 
-        function deleteTank(event){
+        // deleteTank button
+        deleteButton = document.getElementById('delete-tank-button')
+        deleteButon.addEventListener('click', deleteTank)
+
+        function deleteTank(){
             fetch(`${BASE_URL}tanks/${tankId}`, {method: 'DELETE'})
             .then(res => res.json())
             .then(res => {
