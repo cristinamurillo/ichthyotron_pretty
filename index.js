@@ -69,19 +69,23 @@ function renderSection2(sectionName){
     fetch(`${BASE_URL}tanks/section/${sectionName}`)
     .then(res => res.json())
     .then(tanks => {
-    section2.innerHTML = `
-      <div class="tile is-ancestor">
-        <div class="tile is-parent" >
-        </div>
-      </div>
-    `
-    tanks.forEach( tank => {
-      section2.firstElementChild.firstElementChild.innerHTML += `
-          <div class="tile is-child">
-            <h2 class= "title button" id= "${tank.id}"> ${tank.name} </h2>
+
+        // render sec2 innerHTML for tank section view
+        section2.innerHTML = `
+          <div class="tile is-ancestor">
+            <div class="tile is-parent" >
+            </div>
           </div>
-      `
-    })
+        `
+        tanks.forEach( tank => {
+          section2.firstElementChild.firstElementChild.innerHTML += `
+              <div class="tile is-child">
+                <h2 class= "title button" id= "${tank.id}"> ${tank.name} </h2>
+              </div>
+          `
+        })
+
+
     })
 }
 
@@ -92,6 +96,7 @@ function renderSection3(id){
         const tankId = tank.id
         let fishList = ""
         let deleteButton
+        let updateButton
 
         // create list of Fish
         tank.fish.forEach( fish => {
@@ -99,16 +104,21 @@ function renderSection3(id){
         })
 
         // fill in section3 with tank info and fishList
-        section3.innerHTML =`ra
+        section3.innerHTML = `
             Section: ${tank.section} <br>
             Name: ${tank.name} <br>
             Fish: ${fishList}
+            <a class ="button is-small is-primary" id="edit-tank-button" data-id=${tank.id}>Edit Tank</a>
             <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
 
-        // deleteTank button
+        // buttons
         deleteButton = document.getElementById('delete-tank-button')
-        deleteButon.addEventListener('click', deleteTank)
+        deleteButton.addEventListener('click', deleteTank)
+        
+        editButton = document.getElementById('edit-tank-button')
+        editButton.addEventListener('click', editTank)
+
 
         function deleteTank(){
             fetch(`${BASE_URL}tanks/${tankId}`, {method: 'DELETE'})
@@ -119,6 +129,10 @@ function renderSection3(id){
             })
         }
 
+        function editTank(event){
+            debugger
+
+        }
 
     })
 }
