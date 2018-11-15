@@ -2,6 +2,19 @@
   text-align: center;
 }
 
+#section4 {
+  max-width: 600px;
+  text-align: left;
+}
+
+.fish-icon {
+  background-image: url('blue-fish.png');
+}
+
+.box#section3 {
+  background-color: lightcyan;
+}
+
 /*! bulma.io v0.7.2 | MIT License | github.com/jgthms/bulma */
 @-webkit-keyframes spinAround {
   from {
