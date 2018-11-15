@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+#section4 {
+  max-width: 600px;
+  text-align: left;
+}
+
 .fish-icon {
   background-image: url('blue-fish.png');
 }
