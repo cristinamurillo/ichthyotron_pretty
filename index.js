@@ -31,10 +31,13 @@ fetch(BASE_URL + 'feedings/last_meal')
     section3.addEventListener('click', event => {
         if(parseInt(event.target.dataset.id)){
             renderFishShowPage(event.target.dataset.id)
-        } 
+        }
     })
    //for section 4
- 
+
+   section4.addEventListener('click', event => {
+
+   })
 })
 .catch(error => {
     feedingContainer.innerHTML = "<h6> Connection to Server failed! </h6>"
@@ -67,19 +70,23 @@ function renderSection2(sectionName){
     fetch(`${BASE_URL}tanks/section/${sectionName}`)
     .then(res => res.json())
     .then(tanks => {
-    section2.innerHTML = `
-      <div class="tile is-ancestor">
-        <div class="tile is-parent" >
-        </div>
-      </div>
-    `
-    tanks.forEach( tank => {
-      section2.firstElementChild.firstElementChild.innerHTML += `
-          <div class="tile is-child">
-            <h2 class= "title button" id= "${tank.id}"> ${tank.name} </h2>
+
+        // render sec2 innerHTML for tank section view
+        section2.innerHTML = `
+          <div class="tile is-ancestor">
+            <div class="tile is-parent" >
+            </div>
           </div>
-      `
-    })
+        `
+        tanks.forEach( tank => {
+          section2.firstElementChild.firstElementChild.innerHTML += `
+              <div class="tile is-child">
+                <h2 class= "title button" id= "${tank.id}"> ${tank.name} </h2>
+              </div>
+          `
+        })
+
+
     })
 }
 
@@ -88,28 +95,78 @@ function renderSection3(id){
     .then(res => res.json())
     .then(tank => {
         let fishList = ""
-        const tankId = tank.id
+        let deleteButton
+        let editButton
+        let updateButton
 
+        // create list of Fish
         tank.fish.forEach( fish => {
             fishList += `<a href="#section4" class="button fish-icon" data-id=${fish.id}>${fish.name}</a>`
         })
-        section3.innerHTML =`
+
+        // fill in section3 with tank info and fishList
+        section3.innerHTML = `
             Section: ${tank.section} <br>
             Name: ${tank.name} <br>
-            Fish: ${fishList}
+            Fish: ${fishList} <br>
+            <a class ="button is-small is-primary" id="edit-tank-button" data-id=${tank.id}>Edit Tank</a><br>
             <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
-        document.getElementById('delete-tank-button').addEventListener('click', deleteTank)
 
-        function deleteTank(event){
-            fetch(`${BASE_URL}tanks/${tankId}`, {method: 'DELETE'})
+        // buttons
+        deleteButton = document.getElementById('delete-tank-button')
+        deleteButton.addEventListener('click', deleteTank)
+
+        editButton = document.getElementById('edit-tank-button')
+        editButton.addEventListener('click', editTank)
+
+
+        function deleteTank(){
+            fetch(`${BASE_URL}tanks/${tank.id}`, {method: 'DELETE'})
             .then(res => res.json())
             .then(res => {
                 section3.innerHTML = "Tank is Gone :)"
-                document.getElementById(tankId).remove()
+                document.getElementById(tank.id).remove()
             })
         }
 
+        function editTank(event){
+
+            // add edit form to HTML
+            section3.innerHTML += `
+              <br>Tank: <input class="input" type="text" id="new-tank-name" placeholder="${tank.name}">
+              <br>Section: <input class="input" type="text" id="new-tank-section" placeholder="${tank.section}">
+              <a class ="button is-small is-primary" id="update-tank-button" data-id=${tank.id}>Submit Updates</a>
+            `
+
+            // button to submit updates
+            updateButton = document.getElementById('update-tank-button')
+            updateButton.addEventListener('click', update)
+
+
+            function update(){
+                newTankName = document.getElementById('new-tank-name').value || document.getElementById('new-tank-name').placeholder
+                newTankSection = document.getElementById('new-tank-section').value || document.getElementById('new-tank-section').placeholder
+
+                const updates = {
+                  'name': `${newTankName}`,
+                  'section': `${newTankSection}`
+                }
+
+                fetch(`${BASE_URL}/tanks/${tank.id}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(updates)
+                })
+                .then(renderUpdates)
+
+                function renderUpdates(){
+
+                }
+
+            }
+
+        }
 
     })
 }
@@ -135,11 +192,11 @@ function renderFishShowPage(id){
         </div>
         </div>`
 
-        
+
         section4.addEventListener('click', event => {
             //button to update fish tank
             if(event.target.id === "update-fish-tank"){
-             
+
                 updateFishTank(fish.id)
             }
 
@@ -147,7 +204,7 @@ function renderFishShowPage(id){
             if(event.target.id === "update-fish-health"){
                 updateFishHealth(fish.id)
             }
-        }) 
+        })
     })
 
 }
@@ -183,7 +240,7 @@ function updateFishTank(fish_id){
             </div>`
 
         document.getElementById('update-tank-id').addEventListener('click', event => {
-            let new_tank_id = document.querySelector('select').value 
+            let new_tank_id = document.querySelector('select').value
             //update fish with new tank ID
             fetch(BASE_URL + 'fish/' + fish_id, {
                 method: 'PATCH',
@@ -192,18 +249,16 @@ function updateFishTank(fish_id){
             })
             .then(res => {
                 renderFishShowPage(fish_id)
-            })    
+            })
         })
 
         document.getElementById('cancel-update').addEventListener('click', event => {
             renderFishShowPage(fish_id)
         })
-       
+
 
 
     })
-    
+
 
 }
-
-
