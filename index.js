@@ -121,6 +121,7 @@ function renderFishShowPage(id){
     fetch(BASE_URL+ 'fish/' + id)
     .then(res => res.json())
     .then(fish => {
+        section4.style.backgroundColor = "lightblue"
         section4.innerHTML = `
         <div class= "columns">
         <div class="column">
@@ -162,16 +163,20 @@ function updateFishTank(fish_id){
             tankOptions += `<option value=${tank.id}>${tank.name}</option>`
         })
 
+        section4.style.backgroundColor = "#f2fffa"
         section4.innerHTML = `
             <div class = columns>
+            <div class ="column" >
                 <div class="select is-primary">
-                <div class="control column">
+                
+                <div class="control">
                     <select name= "tank">
                         ${tankOptions}
                     </select><br>
                     <button id= "update-tank-id" class="button is-primary">Update</button>
                     </div>
                     </div>
+                </div>
                 <div class = "column">
                     <button class="button is-danger is-outlined" id="cancel-update">Cancel</button>
                 </div>

@@ -16,6 +16,10 @@
   background-color: lightcyan;
 }
 
+.box#section4 {
+  background-color: lightblue;
+}
+
 /*! bulma.io v0.7.2 | MIT License | github.com/jgthms/bulma */
 @-webkit-keyframes spinAround {
   from {
