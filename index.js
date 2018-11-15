@@ -39,7 +39,7 @@ function renderSection1(lastMeal) {
         <a class ="button is-large is-primary" id="feed-button">Feed Fish</a><br><br>
         <a href = "#section2" class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
       `
-      updateLa  stFed(lastMeal)
+      updateLastFed(lastMeal)
 }
 
 function updateLastFed(lastMeal){
