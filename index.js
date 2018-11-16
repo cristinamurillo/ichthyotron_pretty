@@ -5,6 +5,8 @@ const section2 = document.getElementById('section2')
 const section3 = document.getElementById('section3')
 const section4 = document.getElementById('section4')
 
+const section2Header = document.getElementById('sec2-header')
+
 fetch(BASE_URL + 'feedings/last_meal')
 .then(response => response.json())
 .then(lastMeal => {
@@ -19,7 +21,6 @@ fetch(BASE_URL + 'feedings/last_meal')
     section2.addEventListener('click', event =>{
         const target = event.target.id
         console.log(target)
-
         if (target === 'left' || target === 'right' || target === 'back'){
             renderSection2(target)
         } else if (parseInt(target)) {
@@ -65,11 +66,14 @@ function createFeeding(event){
   .then(updateLastFed)
 }
 
+
+//render section2
 function renderSection2(sectionName){
     fetch(`${BASE_URL}tanks/section/${sectionName}`)
     .then(res => res.json())
     .then(tanks => {
-
+        
+        section2Header.innerText = `${sectionName} Section Tanks`
         // render sec2 innerHTML for tank section view
         section2.innerHTML = `
           <div class="tile is-ancestor">
@@ -80,13 +84,15 @@ function renderSection2(sectionName){
         tanks.forEach( tank => {
           section2.firstElementChild.firstElementChild.innerHTML += `
               <div class="tile is-child">
-                <h2 class= "title button" id="${tank.id}"> ${tank.name} </h2>
+                <figure class= "image is-96x96 button is-link is-outlined" >
+                    <img id="${tank.id}" src="tank-icon.png" alt="">
+                    <h5 class= "title is-6"> ${tank.name} </h5>
+                </figure>
+                
               </div>
           `
         })
-        section2.firstElementChild.firstElementChild.innerHTML += `
-          <a class="button" id="add-tank-button"> add a tank! </a>
-        `
+
 
         document.getElementById('add-tank-button').addEventListener('click', event => {
             section3.innerHTML = `
