@@ -27,9 +27,6 @@ body {
   visibility: hidden;
 }
 
-.fish-icon {
-  background-image: url('blue-fish.png');
-}
 
 .box#section3 {
   background-color: whitesmoke;

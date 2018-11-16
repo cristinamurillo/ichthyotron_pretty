@@ -324,13 +324,17 @@ function updateFishTank(fish_id){
 
 function updateFishHealth(fish_id){
     //add edit form to HTML
-   section4.insertAdjacentHTML('beforeend', ` Fish Health: <input class="input" type="text" id="new-health-status" placeholder="Healthy"></input>
-   <br><br>
-   <button id= "update-health" class="button is-primary">Update</button>`)
+    if (document.getElementById('new-health-status') === null){
+        section4.insertAdjacentHTML('beforeend', ` Fish Health: <input class="input" type="text" id="new-health-status" placeholder="Healthy"></input>
+        <br><br>
+        <button id= "update-health" class="button is-primary">Update</button>`)
+    }
+
 
    // button to submit updates
    document.getElementById('update-health').addEventListener('click', updateHealth)
 
+   //patch request to server
    function updateHealth(){
        let newHealth = document.getElementById('new-health-status').value
        console.log(newHealth)
