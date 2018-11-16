@@ -328,7 +328,7 @@ function updateFishHealth(fish_id){
         section4.insertAdjacentHTML('beforeend', ` Fish Health: <input class="input" type="text" id="new-health-status" placeholder="Healthy"></input>
         <br><br>
         <button id= "update-health" class="button is-primary">Update</button>`)
-    }
+    
 
 
    // button to submit updates
@@ -348,5 +348,7 @@ function updateFishHealth(fish_id){
        .then(response=> {
            renderFishShowPage(fish_id)})
    }
+
+}
 
 }
