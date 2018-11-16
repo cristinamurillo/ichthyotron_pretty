@@ -49,7 +49,7 @@ function renderSection1(lastMeal) {
     feedingContainer.innerHTML = `
     <h6 class ="subtitle is-4" id="last-fed-display"> </h6>
     <a class ="button is-large is-primary" id="feed-button">Feed Fish</a><br><br>
-    <a href = "#section2" class ="button is-large is-primary" id="fish-room-button">Fish Room</a>
+ 
     `
     updateLastFed(lastMeal)
 }
@@ -133,7 +133,7 @@ function renderSection2(sectionName){
 }
 
 function renderSection3(id){
-
+    section3.style.visibility = "visible"
     let deleteButton
     let editButton
     let updateButton
@@ -222,6 +222,7 @@ function renderFishShowPage(id){
     .then(res => res.json())
     .then(fish => {
         // section4.style.backgroundColor = "f2fffa"
+        section4.style.visibility = "visible"
         section4.innerHTML = `
         <div class= "columns">
         <div class="column">
