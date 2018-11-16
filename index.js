@@ -104,10 +104,10 @@ function renderSection3(id){
 
         // fill in section3 with tank info and fishList
         section3.innerHTML = `
-            Section: ${tank.section} <br>
-            Name: ${tank.name} <br>
-            Fish: ${fishList} <br>
-            <a class ="button is-small is-primary" id="edit-tank-button" data-id=${tank.id}>Edit Tank</a><br>
+            <strong>Section: </strong>${tank.section} <br>
+            <strong>Name: </strong>${tank.name} <br>
+            <strong>Fish: </strong>${fishList} <br><br>
+            <a class ="button is-small is-primary" id="edit-tank-button" data-id=${tank.id}>Edit Tank</a><br><br>
             <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
 
@@ -176,7 +176,7 @@ function renderFishShowPage(id){
     fetch(BASE_URL+ 'fish/' + id)
     .then(res => res.json())
     .then(fish => {
-        section4.style.backgroundColor = "f2fffa"
+        // section4.style.backgroundColor = "f2fffa"
         section4.innerHTML = `
         <div class= "columns">
         <div class="column">
@@ -219,7 +219,7 @@ function updateFishTank(fish_id){
             tankOptions += `<option value=${tank.id}>${tank.name}</option>`
         })
 
-        section4.style.backgroundColor = "#f2fffa"
+        // section4.style.backgroundColor = "#f2fffa"
         section4.innerHTML = `
             <div class = columns>
             <div class ="column" >
