@@ -273,13 +273,15 @@ function updateFishHealth(fish_id){
    function updateHealth(){
        let newHealth = document.getElementById('new-health-status').value 
        console.log(newHealth)
+       console.log(fish_id)
 
        fetch(BASE_URL + 'fish/' + fish_id, {
            method: 'PATCH',
            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
            body: JSON.stringify({health_status: newHealth})
        })
-       .then(response=> {renderFishShowPage(fish_id)})
+       .then(response=> {
+           renderFishShowPage(fish_id)})
    }
 
 }
