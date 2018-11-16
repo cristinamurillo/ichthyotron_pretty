@@ -88,12 +88,39 @@ function renderSection2(sectionName){
           <a class="button" id="add-tank-button"> add a tank! </a>
         `
 
-        document.getElementById('add-tank-button').addEventListener('click', event => {
+        document.getElementById('add-tank-button').addEventListener('click', (event) => {
             section3.innerHTML = `
-
+              <h5 id='create-error'> </h5>
+              <br>Tank Section: <input class="input" type="text" id="new-tank-section" >
+              <br><br>Tank Name: <input class="input" type="text" id="new-tank-name" >
+              <br><br><a class ="button is-small is-primary" id="new-tank-button" > new tank! </a>
             `
+            newButton = document.getElementById('new-tank-button')
+            newButton.addEventListener('click', createTank)
 
+
+            function createTank() {
+                newName = document.getElementById('new-tank-name').value
+                newSection = document.getElementById('new-tank-section').value
+
+                if (newName && newSection) {
+                    debugger
+                    fetch(`${BASE_URL}tanks`, {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                          'name': `${newName}`,
+                          'section': `${newSection}`
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(res => {})
+                } else {
+                    document.getElementById('create-error').innerText = "name and/or section can't be blank!"
+                }
+            }
         })
+
 
 
     })
@@ -113,8 +140,8 @@ function renderSection3(id){
         .then(renderTankInfo)
     }
 
-    function renderTankInfo(tank) {
-
+    function renderTankInfo(resp) {
+        let tank = resp
         let fishList = ""
 
         tank.fish.forEach( fish => {
@@ -129,53 +156,54 @@ function renderSection3(id){
             <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
         renderButtons()
-    }
-
-    function renderButtons() {
-        deleteButton = document.getElementById('delete-tank-button')
-        deleteButton.addEventListener('click', deleteTank)
-        editButton = document.getElementById('edit-tank-button')
-        editButton.addEventListener('click', editTank)
-    }
 
 
-    // future goals:
-    // add alert to delete button?
-    // no deleting tank if there are fish in tank
-    function deleteTank() {
-        fetch(`${BASE_URL}tanks/${tank.id}`, {method: 'DELETE'})
-        .then(res => res.json())
-        .then(res => {
-            section3.innerHTML = "Tank is Gone :)"
-            document.getElementById(tank.id).remove()
-        })
-    }
+        function renderButtons() {
+            deleteButton = document.getElementById('delete-tank-button')
+            deleteButton.addEventListener('click', deleteTank)
+            editButton = document.getElementById('edit-tank-button')
+            editButton.addEventListener('click', editTank)
+        }
 
-    function editTank(event) {
 
-        section3.innerHTML = `
-          <br>Tank Section: <input class="input" type="text" id="new-tank-section" placeholder="${tank.section}">
-          <br><br>Tank Name: <input class="input" type="text" id="new-tank-name" placeholder="${tank.name}">
-          <br><a class ="button is-small is-primary" id="update-tank-button" >Save Edits</a>
-        `
-        updateButton = document.getElementById('update-tank-button')
-        updateButton.addEventListener('click', updateTank)
-    }
-
-    function updateTank() {
-        newTankName = document.getElementById('new-tank-name').value || document.getElementById('new-tank-name').placeholder
-        newTankSection = document.getElementById('new-tank-section').value || document.getElementById('new-tank-section').placeholder
-
-        fetch(`${BASE_URL}/tanks/${tank.id}`, {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-              'name': `${newTankName}`,
-              'section': `${newTankSection}`
+        // future goals:
+        // add alert to delete button?
+        // no deleting tank if there are fish in tank
+        function deleteTank() {
+            fetch(`${BASE_URL}tanks/${tank.id}`, {method: 'DELETE'})
+            .then(res => res.json())
+            .then(res => {
+                section3.innerHTML = "Tank is Gone :)"
+                document.getElementById(tank.id).remove()
             })
-        })
-        .then(res => res.json())
-        .then(tank => {renderTankInfo(tank); renderSection2(tank.section.toLowerCase())})
+        }
+
+        function editTank() {
+            section3.innerHTML = `
+              <br>Tank Section: <input class="input" type="text" id="new-tank-section" placeholder="${tank.section}">
+              <br><br>Tank Name: <input class="input" type="text" id="new-tank-name" placeholder="${tank.name}">
+              <br><a class ="button is-small is-primary" id="update-tank-button" >Save Edits</a>
+            `
+            updateButton = document.getElementById('update-tank-button')
+            updateButton.addEventListener('click', updateTank)
+        }
+
+        function updateTank() {
+            newTankName = document.getElementById('new-tank-name').value || document.getElementById('new-tank-name').placeholder
+            newTankSection = document.getElementById('new-tank-section').value || document.getElementById('new-tank-section').placeholder
+
+            fetch(`${BASE_URL}/tanks/${tank.id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  'name': `${newTankName}`,
+                  'section': `${newTankSection}`
+                })
+            })
+            .then(res => res.json())
+            .then(tank => {renderTankInfo(tank); renderSection2(tank.section.toLowerCase())})
+
+        }
 
     }
 }
