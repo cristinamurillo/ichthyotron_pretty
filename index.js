@@ -35,9 +35,7 @@ fetch(BASE_URL + 'feedings/last_meal')
     })
    //for section 4
 
-   section4.addEventListener('click', event => {
-
-   })
+ 
 })
 .catch(error => {
     feedingContainer.innerHTML = "<h6> Connection to Server failed! </h6>"
@@ -178,12 +176,13 @@ function renderFishShowPage(id){
     fetch(BASE_URL+ 'fish/' + id)
     .then(res => res.json())
     .then(fish => {
-        section4.style.backgroundColor = "lightblue"
+        section4.style.backgroundColor = "f2fffa"
         section4.innerHTML = `
         <div class= "columns">
         <div class="column">
             <h5 class = 'title is-4'>${fish.name}</h5>
             <p><strong>Species: </strong>${fish.species}</p>
+            <p><strong>Health Status: </strong>${fish.health_status}</p>
             <p><strong>Tank: </strong>${fish.tank.name}</p>
         </div>
         <div class="column">
@@ -196,7 +195,6 @@ function renderFishShowPage(id){
         section4.addEventListener('click', event => {
             //button to update fish tank
             if(event.target.id === "update-fish-tank"){
-
                 updateFishTank(fish.id)
             }
 
@@ -204,6 +202,7 @@ function renderFishShowPage(id){
             if(event.target.id === "update-fish-health"){
                 updateFishHealth(fish.id)
             }
+
         })
     })
 
@@ -256,9 +255,31 @@ function updateFishTank(fish_id){
             renderFishShowPage(fish_id)
         })
 
-
-
     })
 
+}
+
+function updateFishHealth(fish_id){
+    //add edit form to HTML
+   section4.innerHTML +=`
+   Fish Health: <input class="input" type="text" id="new-health-status" placeholder="Healthy"></input>
+   <br><br>
+   <button id= "update-health" class="button is-primary">Update</button>
+   `
+
+   // button to submit updates
+   document.getElementById('update-health').addEventListener('click', updateHealth)
+
+   function updateHealth(){
+       let newHealth = document.getElementById('new-health-status').value 
+       console.log(newHealth)
+
+       fetch(BASE_URL + 'fish/' + fish_id, {
+           method: 'PATCH',
+           headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+           body: JSON.stringify({health_status: newHealth})
+       })
+       .then(response=> {renderFishShowPage(fish_id)})
+   }
 
 }

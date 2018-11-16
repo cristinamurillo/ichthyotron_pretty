@@ -1,3 +1,7 @@
+body {
+  background: #eee url(https://subtlepatterns.com/patterns/extra_clean_paper.png);
+}
+
 .container {
   text-align: center;
 }
@@ -13,11 +17,11 @@
 }
 
 .box#section3 {
-  background-color: lightcyan;
+  background-color: whitesmoke;
 }
 
 .box#section4 {
-  background-color: lightblue;
+  background-color: #d6e4f9;
 }
 
 /*! bulma.io v0.7.2 | MIT License | github.com/jgthms/bulma */
