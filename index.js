@@ -73,7 +73,7 @@ function renderSection2(sectionName){
     .then(res => res.json())
     .then(tanks => {
         
-        section2Header.innerText = `${sectionName} Section Tanks`
+        section2Header.innerText = `Tanks`
         // render sec2 innerHTML for tank section view
         section2.innerHTML = `
           <div class="tile is-ancestor">
@@ -128,9 +128,9 @@ function renderSection3(id){
         })
 
         section3.innerHTML = `
-            <strong>Section: </strong>${tank.section} <br>
-            <strong>Name: </strong>${tank.name} <br>
-            <strong>Fish: </strong>${fishList} <br><br>
+            <p><strong>Section: </strong>${tank.section}</p>
+            <p><strong>Name: </strong>${tank.name}</p><br>
+            <p><strong>Fish </strong></p>${fishList} <br><br>
             <a class ="button is-small is-primary" id="edit-tank-button" data-id=${tank.id}>Edit Tank</a><br><br>
             <a class ="button is-small is-primary" id="delete-tank-button" data-id=${tank.id}>Delete Tank</a>
         `
