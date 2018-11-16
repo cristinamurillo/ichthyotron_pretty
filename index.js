@@ -23,8 +23,9 @@ fetch(BASE_URL + 'feedings/last_meal')
         console.log(target)
         if (target === 'left' || target === 'right' || target === 'back'){
             renderSection2(target)
-        } else if (parseInt(target)) {
+        } else if (parseInt(target) || target === 'add-tank-button') {
             renderSection3(target)
+            // debugger
         }
     })
 
@@ -72,7 +73,7 @@ function renderSection2(sectionName){
     fetch(`${BASE_URL}tanks/section/${sectionName}`)
     .then(res => res.json())
     .then(tanks => {
-        
+
         section2Header.innerText = `Tanks`
         // render sec2 innerHTML for tank section view
         section2.innerHTML = `
@@ -88,47 +89,10 @@ function renderSection2(sectionName){
                     <img id="${tank.id}" src="tank-icon.png" alt="">
                     <h5 class= "title is-6"> ${tank.name} </h5>
                 </figure>
-                
+
               </div>
           `
         })
-
-
-        document.getElementById('add-tank-button').addEventListener('click', (event) => {
-            section3.innerHTML = `
-              <h5 id='create-error'> </h5>
-              <br>Tank Section: <input class="input" type="text" id="new-tank-section" >
-              <br><br>Tank Name: <input class="input" type="text" id="new-tank-name" >
-              <br><br><a class ="button is-small is-primary" id="new-tank-button" > new tank! </a>
-            `
-            newButton = document.getElementById('new-tank-button')
-            newButton.addEventListener('click', createTank)
-
-
-            function createTank() {
-                newName = document.getElementById('new-tank-name').value
-                newSection = document.getElementById('new-tank-section').value
-
-                if (newName && newSection) {
-                    debugger
-                    fetch(`${BASE_URL}tanks`, {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                          'name': `${newName}`,
-                          'section': `${newSection}`
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(res => {})
-                } else {
-                    document.getElementById('create-error').innerText = "name and/or section can't be blank!"
-                }
-            }
-        })
-
-
-
     })
 }
 
@@ -138,7 +102,39 @@ function renderSection3(id){
     let editButton
     let updateButton
 
-    fetchAndShow()
+
+    if (id === 'add-tank-button') {
+        section3.innerHTML = `
+        <h5 id='create-error'> </h5>
+        <br>Tank Section: <input class="input" type="text" id="new-tank-section" >
+        <br><br>Tank Name: <input class="input" type="text" id="new-tank-name" >
+        <br><br><a class ="button is-small is-primary" id="new-tank-button" > new tank! </a>
+        `
+        newButton = document.getElementById('new-tank-button')
+        newButton.addEventListener('click', createTank)
+    } else if (parseInt(id) !== NaN) {
+        fetchAndShow()
+    }
+
+    function createTank() {
+        newName = document.getElementById('new-tank-name').value
+        newSection = document.getElementById('new-tank-section').value
+
+        if (newName && newSection) {
+            fetch(`${BASE_URL}tanks`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                  'name': `${newName}`,
+                  'section': `${newSection}`
+                })
+            })
+            .then(res => res.json())
+            .then(renderTankInfo)
+        } else {
+            document.getElementById('create-error').innerText = "name and/or section can't be blank!"
+        }
+    }
 
     function fetchAndShow () {
         fetch(`${BASE_URL}tanks/${id}`)
