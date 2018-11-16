@@ -2,7 +2,11 @@ body {
   background: #eee url(https://subtlepatterns.com/patterns/extra_clean_paper.png);
 }
 
-#header {
+#sec2-header {
+  text-align: center;
+}
+
+#add-tank-button {
   text-align: center;
 }
 
